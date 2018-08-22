@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Router-Js</title>
+	<script src="../router.js"></script>
+	<script>
+		let Router = new RouterJs;
+		Router.setRoutes({
+			//path => /test/index.html
+		    '/test/index.html': function() {
+		        //do something...
+		        console.log('success1');
+		    },
+
+		    //path => /test/index.html#1
+		    '/test/index.html:id': function() {
+		        //do something...
+		        console.log('success2');
+		    },
+		    //...continue
+		});
+		Router.init();
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

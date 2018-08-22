@@ -18,22 +18,28 @@ class RouterJs {
     }
     checkRoute(key) {
         let keys = Object.keys(this.routes);
-        let index = -1;
-        keys.forEach(function(v, i) {
-            let self = this;
+        for (let i=0; i<keys.length; i++) {
+            let v = keys[i];
             let pointLength = v.indexOf(':');
             let newKey = v;
             if (pointLength > 0) {
                 newKey = v.substring(0, pointLength);
-            } 
-            if (key.indexOf(newKey) != -1) {
-                index = i;
+                if (key.substring(0, newKey.length) == newKey) {
+                    this.setParam(key, newKey);
+                    return keys[i];
+                }
+            } else {
+                if (key == newKey) {
+                    return keys[i];
+                }
             }
-        });
-        if (index > -1) {
-            return keys[index];
         }
         return false;
+    }
+    setParam(key, newKey) {
+        if (key != newKey) {
+            this.param = key.replace(newKey, '');
+        }
     }
     setRoutes(routes) {
         this.routes = routes;
@@ -42,19 +48,7 @@ class RouterJs {
         let APP_PATH = this.getPath();
         let key = this.checkRoute(APP_PATH);
         if (key) {
-            if (APP_PATH != key) {
-                this.param = APP_PATH.replace(key, '');
-            }
             this.routes[key]();
         }
     }
 }
-
-let Router = new RouterJs;
-Router.setRoutes({
-    '/events/:event': function() {
-        require('./listen');
-    },
-    //...continue
-});
-Router.init();
